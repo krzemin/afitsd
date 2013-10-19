@@ -1,6 +1,6 @@
 
 
-fun sublist lst =
+(*fun sublist lst =
   let
     fun sublistacc nil acc = acc
       | sublistacc (x :: xs) acc =
@@ -11,7 +11,10 @@ fun sublist lst =
       end
   in
     sublistacc lst [[]]
-  end
+  end*)
+
+fun sublist xs =
+  foldr (fn (x, xss) => foldl (fn (ys, zss) => (x::ys)::zss) xss xss) [[]] xs
 
 
 datatype tree = & of int * (tree * tree) | %
