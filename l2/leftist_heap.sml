@@ -52,10 +52,6 @@ struct
   fun deleteMin E = raise EMPTY
   	| deleteMin (T(_, _, a, b)) = merge (a,b)
 
-(*  fun insert_direct (x, E) = T(1, x, E, E)
-  	| insert_direct (x, (T(r, y, a, b))) = 
-*)
-
 end
 
 structure OrderedInt: ORDERED = 
