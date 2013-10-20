@@ -1,0 +1,27 @@
+Udowodnij, że prawostronny kręgosłup kopca lewicowego rozmiaru n
+ma długość co najwyżej |_ log (n + 1) _|.
+
+-- rozw. --
+
+Przeformułujmy tę własność następująco:
+
+Jeśli prawy kręgosłup kopca lewicowego ma r elementów, to kopiec
+ma conajmniej 2^r - 1 elementów.
+
+D-d przez indukcję po r:
+
+r = 1 => 2^1 -1 = 1 
+
+Załóżmy, że tw. jest prawdziwe dla r-1. Rozważmy kopiec lewicowy
+o długości prawego kręgosłupa r. Prawe poddrzewo ma kręgosłup r-1,
+zatem na mocy zał. ind. n(prawe) >= 2^(r-1) - 1.
+Na mocy własności kopca lewicowego, prawy kręgosłup lewego poddrzewa
+ma dł. co najmniej r - 1, zatem n(lewe) >= 2^(r-1) - 1.
+
+Zatem ile elementów ma conajmniej nasz kopiec?
+
+n(kopiec) >=
+1 + n(prawe) + n(lewe) >=
+1 + 2^(r-1) - 1 + 2^(r-1) - 1 = 2^r - 1
+
+Qed.
