@@ -22,8 +22,16 @@ struct
   	| merge (E, h) = h
   	| merge (h1 as T(_, x, a1, b1), h2 as T(_, y, a2, b2)) =
   	  if Elem.leq (x,y)
-  	    then makeT(x, a1, merge(b1, h2))
-  	    else makeT(y, a2, merge(h1, b2))
+  	    then 
+  	      if rank a1 >= rank b1 + rank h2
+  	        then T(1 + rank a1 + rank b1 + rank h2, x, a1, merge(b1, h2))
+  	        else T(1 + rank a1 + rank b1 + rank h2, x, merge(b1, h2), a1)
+  	    	(*makeT(x, a1, merge(b1, h2))*)
+  	    else
+  	      if rank a2 >= rank h1 + rank b2
+  	        then T(1 + rank a2 + rank h1 + rank b2, y, a2, merge(h1, b2))
+  	        else T(1 + rank a2 + rank h1 + rank b2, y, merge(h1, b2), a2)
+  	    	(*makeT(y, a2, merge(h1, b2))*)
 
   fun insert (x, h) = merge (T(1, x, E, E), h)
 
