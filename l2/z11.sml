@@ -6,7 +6,7 @@ fun	cbt 0 _ = %
   | cbt h v =
     let
       val subtree = cbt (h - 1) v
-	in
+    in
       v&(subtree, subtree)
     end
 
