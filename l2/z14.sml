@@ -1,8 +1,4 @@
-signature ORDERED =
-sig
-  type T
-  val leq: T * T -> bool
-end
+use "../incl/ordered.sml" ;;
 
 signature HEAP =
 sig
@@ -65,11 +61,6 @@ struct
     end
 end
 
-structure OrderedInt: ORDERED = 
-struct
-  type T = int
-  val leq = (op <=)
-end
 
 structure LeftistHeapInt = LeftistHeap(OrderedInt)
 

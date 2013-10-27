@@ -1,27 +1,5 @@
 
-signature ORDERED =
-sig
-  type T
-  val leq: T * T -> bool
-end
-
-signature HEAP =
-sig
-  structure Elem: ORDERED
-
-  type Heap
-
-  val empty: Heap
-  val isEmpty: Heap -> bool  
-  val insert: Elem.T * Heap -> Heap
-  val merge: Heap * Heap -> Heap
-  val findMin: Heap -> Elem.T
-  val deleteMin: Heap -> Heap
-  val flat: Heap -> Elem.T list
-end
-
-exception EMPTY
-
+use "../incl/heap.sml" ;;
 
 functor BinomialHeap(Element: ORDERED) : HEAP =
 struct
@@ -74,36 +52,4 @@ struct
   	  merge (rev ts1, ts2)
   	end
 
-  fun flat [] = []
-    | flat ts =
-      let
-        val minElem = findMin ts
-      in
-        minElem :: flat (deleteMin ts)
-      end
-
 end
-
-
-
-structure OrderedInt: ORDERED = 
-struct
-  type T = int
-  val leq = (op <=)
-end
-
-structure BinomialHeapInt = BinomialHeap(OrderedInt)
-
-
-val t1 = BinomialHeapInt.empty
-val t2 = BinomialHeapInt.insert (5, t1)
-val t3 = BinomialHeapInt.insert (2, t2)
-val t4 = BinomialHeapInt.insert (7, t3)
-val t5 = BinomialHeapInt.insert (0, t4)
-
-val f1 = BinomialHeapInt.flat t1
-val f2 = BinomialHeapInt.flat t2
-val f3 = BinomialHeapInt.flat t3
-val f4 = BinomialHeapInt.flat t4
-val f5 = BinomialHeapInt.flat t5
-
