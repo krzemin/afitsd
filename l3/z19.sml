@@ -25,8 +25,14 @@ fun flatHeap h =
   if HeapUnderTest.isEmpty h then []
   else HeapUnderTest.findMin h :: flatHeap (HeapUnderTest.deleteMin h)
 
-val r1 = randomIntList 1000000
+val r1 = randomIntList 2097151 (* 2^21 - 1 *)
+(*val l1 = length r1*)
 (*val r1 = randomIntList 2000000*)
 
-val s1 = flatHeap (buildHeap r1)
+(*val s1 = flatHeap (buildHeap r1)*)
+
+fun repeatMin (0, _) = []
+  | repeatMin (n, h) = HeapUnderTest.findMin h :: repeatMin (n - 1, h)
+
+val s2 = repeatMin (2000000, buildHeap r1)
 
