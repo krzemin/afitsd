@@ -5,10 +5,11 @@ sig
 	datatype 'a streamCell = Cons of 'a * 'a stream | Nil
 	withtype 'a stream = 'a streamCell susp
 	exception SHd and STl and Nth
+
 	val sHd : 'a stream -> 'a
 	val sTl : 'a stream -> 'a stream
 	val ++ : 'a stream * 'a stream -> 'a stream
-	val constStream : 'a -> 'a stream
+(*	val constStream : 'a -> 'a stream
 	val mkStream : (int -> 'a) -> 'a stream
 	val from : int -> int stream
 	val sMap : ('a -> 'b) -> 'a stream -> 'b stream
@@ -26,5 +27,5 @@ sig
 	val prefix : ('a -> bool) -> 'a stream -> 'a stream
 	val suffix : ('a -> bool) -> 'a stream -> 'a stream
 	val split : int -> 'a stream -> 'a stream * 'a stream
-	val splitp : ('a -> bool) -> 'a stream -> 'a stream * 'a stream
+	val splitp : ('a -> bool) -> 'a stream -> 'a stream * 'a stream*)
 end
