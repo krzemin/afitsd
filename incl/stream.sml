@@ -9,7 +9,7 @@ sig
 	val sHd : 'a stream -> 'a
 	val sTl : 'a stream -> 'a stream
 	val ++ : 'a stream * 'a stream -> 'a stream
-(*	val constStream : 'a -> 'a stream
+	val constStream : 'a -> 'a stream
 	val mkStream : (int -> 'a) -> 'a stream
 	val from : int -> int stream
 	val sMap : ('a -> 'b) -> 'a stream -> 'b stream
@@ -17,7 +17,7 @@ sig
 	val sTake : int -> 'a stream -> 'a stream
 	val zip : 'a stream * 'b stream -> ('a * 'b) stream
 	val unzip : ('a * 'b) stream -> 'a stream * 'b stream
-	val splice : 'a stream * 'b stream -> ('a * 'b) stream
+(*	val splice : 'a stream * 'b stream -> ('a * 'b) stream
 	val filter : ('a -> 'b option) -> 'a stream -> 'b stream
 	val find : ('a -> bool) -> 'a stream -> 'a stream
 	val remove : ('a -> bool) -> 'a stream -> 'a stream
