@@ -49,7 +49,19 @@ struct
 	fun update (i, y, Zero :: ts) = Zero :: update(i, y, ts)
 	  | update (i, y, One t :: ts) =
 	  	if i < size t then One (updateTree(i, y, t)) :: ts
-	  	else One t :: update(i - size t, y, ts) 
+	  	else One t :: update(i - size t, y, ts)
+
+	fun flattenTree (Leaf x) = [x]
+		| flattenTree (Node(_, t1, t2)) = flattenTree t1 @ flattenTree t2
+
+	fun flatten [] = []
+	  | flatten (Zero :: ts) = flatten ts
+	  | flatten (One t :: ts) = flattenTree t @ flatten ts
+
+
+  (* z62 *)
+	fun drop (0, ts) = ts
+		| drop (k, ts) = ts
 
 end
 
@@ -68,5 +80,6 @@ val ral13752_3rd = DenseRList.lookup (3, ral13752)
 val ral13752_4th = DenseRList.lookup (4, ral13752)
 val ral13052_2nd = DenseRList.lookup (2, ral13052)
 
-
+val ral13052_lst = DenseRList.flatten ral13052
+val ral052 = DenseRList.drop (2, ral13052)
 

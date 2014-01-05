@@ -10,4 +10,7 @@ sig
 	val lookup : int * 'a RList -> 'a
 	val update : int * 'a * 'a RList -> 'a RList
 
+	val flatten : 'a RList -> 'a list
+
+	val drop : int * 'a RList -> 'a RList (* z62 *)
 end
