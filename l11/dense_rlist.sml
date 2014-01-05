@@ -41,6 +41,15 @@ struct
 		| lookup (i, One t :: ts) = 
 			if i < size t then lookupTree (i, t) else lookup (i - size t, ts)
 
+	fun updateTree (0, y, Leaf x) = Leaf y
+		| updateTree (i, y, Node(w, t1, t2)) =
+			if i < w div 2 then Node(w, updateTree(i, y, t1), t2)
+			else Node(w, t1, updateTree(i - w div 2, y, t2))
+
+	fun update (i, y, Zero :: ts) = Zero :: update(i, y, ts)
+	  | update (i, y, One t :: ts) =
+	  	if i < size t then One (updateTree(i, y, t)) :: ts
+	  	else One t :: update(i - size t, y, ts) 
 
 end
 
@@ -50,11 +59,14 @@ val ral52 = DenseRList.cons(5, ral2)
 val ral752 = DenseRList.cons(7, ral52)
 val ral3752 = DenseRList.cons(3, ral752)
 val ral13752 = DenseRList.cons(1, ral3752)
+val ral13052 = DenseRList.update(2, 0, ral13752)
+
 val ral13752_head = DenseRList.head ral13752
 val ral13752_tail = DenseRList.tail ral13752
 val ral13752_2nd = DenseRList.lookup (2, ral13752)
 val ral13752_3rd = DenseRList.lookup (3, ral13752)
 val ral13752_4th = DenseRList.lookup (4, ral13752)
+val ral13052_2nd = DenseRList.lookup (2, ral13052)
 
 
 

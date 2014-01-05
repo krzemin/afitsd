@@ -8,8 +8,6 @@ sig
 	val head : 'a RList -> 'a
 	val tail : 'a RList -> 'a RList
 	val lookup : int * 'a RList -> 'a
-(*	val update : int * 'a * 'a RList -> 'a RList
+	val update : int * 'a * 'a RList -> 'a RList
 
-	exception Empty
-	exception Subscript*)
 end
