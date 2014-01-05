@@ -11,10 +11,10 @@ struct
 	fun isEmpty [] = true
 		| isEmpty _ = false
 
-  fun rank (Leaf _) = 0
-  	| rank (Node(r, _, _)) = r
+  fun size (Leaf _) = 1
+  	| size (Node(w, _, _)) = w
 
-  fun link (t1, t2) = Node(1 + rank t1, t1, t2)
+  fun link (t1, t2) = Node(size t1 + size t2, t1, t2)
 
 	fun consTree (t, []) = [One t]
 		| consTree (t, Zero :: ts) = One t :: ts
@@ -32,20 +32,29 @@ struct
 
 	fun tail ts = let val (_, ts') = unconsTree ts in ts' end
 
+	fun lookupTree (0, Leaf x) = x
+		| lookupTree (i, Node (w, t1, t2)) =
+			if i < w div 2 then lookupTree (i, t1)
+			else lookupTree (i - w div 2, t2)
 
-
+	fun lookup (i, Zero :: ts) = lookup (i, ts)
+		| lookup (i, One t :: ts) = 
+			if i < size t then lookupTree (i, t) else lookup (i - size t, ts)
 
 
 end
 
-val ral1 = DenseRList.empty
-val ral2 = DenseRList.cons(5, ral1)
-val ral3 = DenseRList.cons(4, ral2)
-val ral4 = DenseRList.cons(3, ral3)
-val ral5 = DenseRList.cons(2, ral4)
-val ral6 = DenseRList.cons(1, ral5)
-val ral6_head = DenseRList.head ral6
-val ral6_tail = DenseRList.tail ral6
+val ral = DenseRList.empty
+val ral2 = DenseRList.cons(2, ral)
+val ral52 = DenseRList.cons(5, ral2)
+val ral752 = DenseRList.cons(7, ral52)
+val ral3752 = DenseRList.cons(3, ral752)
+val ral13752 = DenseRList.cons(1, ral3752)
+val ral13752_head = DenseRList.head ral13752
+val ral13752_tail = DenseRList.tail ral13752
+val ral13752_2nd = DenseRList.lookup (2, ral13752)
+val ral13752_3rd = DenseRList.lookup (3, ral13752)
+val ral13752_4th = DenseRList.lookup (4, ral13752)
 
 
 
