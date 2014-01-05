@@ -13,4 +13,5 @@ sig
 	val flatten : 'a RList -> 'a list
 
 	val drop : int * 'a RList -> 'a RList (* z62 *)
+	val create : int * 'a -> 'a RList (* z63 *)
 end

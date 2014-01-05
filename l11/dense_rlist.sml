@@ -63,6 +63,23 @@ struct
 	fun drop (0, ts) = ts
 		| drop (k, ts) = ts
 
+
+	(* z63 *)
+	fun fullTree (1, x) = Leaf x
+		| fullTree (w, x) =
+			let val subTree = fullTree (w div 2, x)
+			in Node(w, subTree, subTree) end
+
+	fun create (k, x) =
+		let
+			fun createAux (0, _) = []
+				| createAux (n, w) = 
+					if n mod 2 = 0 then Zero :: createAux(n div 2, 2 * w)
+					else One (fullTree (w, x)) :: createAux(n div 2, 2 * w)
+		in
+			createAux (k, 1)
+		end
+
 end
 
 val ral = DenseRList.empty
@@ -83,3 +100,8 @@ val ral13052_2nd = DenseRList.lookup (2, ral13052)
 val ral13052_lst = DenseRList.flatten ral13052
 val ral052 = DenseRList.drop (2, ral13052)
 
+val ral16x5 = DenseRList.create (16, 5)
+val ral16x5_list = DenseRList.flatten ral16x5
+
+val ral6x2 = DenseRList.create (6, 2)
+val ral6x2_list = DenseRList.flatten ral6x2
