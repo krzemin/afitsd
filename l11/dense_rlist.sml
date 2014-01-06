@@ -22,7 +22,8 @@ struct
 
 	fun cons (x, ts) = consTree (Leaf x, ts)
 
-	fun unconsTree [One t] = (t, [])
+	fun unconsTree [] = raise Empty
+		| unconsTree [One t] = (t, [])
 		| unconsTree (One t :: ts) = (t, Zero :: ts)
 		| unconsTree (Zero :: ts) =
 			let val (Node(_, t1, t2), ts') = unconsTree ts
@@ -33,20 +34,24 @@ struct
 	fun tail ts = let val (_, ts') = unconsTree ts in ts' end
 
 	fun lookupTree (0, Leaf x) = x
+		| lookupTree (i, Leaf x) = raise Subscript
 		| lookupTree (i, Node (w, t1, t2)) =
 			if i < w div 2 then lookupTree (i, t1)
 			else lookupTree (i - w div 2, t2)
 
-	fun lookup (i, Zero :: ts) = lookup (i, ts)
+	fun lookup (i, []) = raise Subscript
+		| lookup (i, Zero :: ts) = lookup (i, ts)
 		| lookup (i, One t :: ts) = 
 			if i < size t then lookupTree (i, t) else lookup (i - size t, ts)
 
 	fun updateTree (0, y, Leaf x) = Leaf y
+		| updateTree (i, y, Leaf x) = raise Subscript
 		| updateTree (i, y, Node(w, t1, t2)) =
 			if i < w div 2 then Node(w, updateTree(i, y, t1), t2)
 			else Node(w, t1, updateTree(i - w div 2, y, t2))
 
-	fun update (i, y, Zero :: ts) = Zero :: update(i, y, ts)
+	fun update (i, y, []) = raise Subscript
+		| update (i, y, Zero :: ts) = Zero :: update(i, y, ts)
 	  | update (i, y, One t :: ts) =
 	  	if i < size t then One (updateTree(i, y, t)) :: ts
 	  	else One t :: update(i - size t, y, ts)
@@ -137,3 +142,5 @@ val ral7x5_list = DenseRList.flatten ral7x5
 
 val ral64x1 = DenseRList.drop (63, DenseRList.create (127, 1))
 val ral64x1_list_len = length (DenseRList.flatten ral64x1)
+
+val ral64x1_head = DenseRList.head ral64x1

@@ -14,4 +14,8 @@ sig
 
 	val drop : int * 'a RList -> 'a RList (* z62 *)
 	val create : int * 'a -> 'a RList (* z63 *)
+
 end
+
+exception Empty
+exception Subscript
