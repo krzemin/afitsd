@@ -58,10 +58,25 @@ struct
 	  | flatten (Zero :: ts) = flatten ts
 	  | flatten (One t :: ts) = flattenTree t @ flatten ts
 
-
   (* z62 *)
-	fun drop (0, ts) = ts
-		| drop (k, ts) = ts
+	fun drop (k, ts) =
+		let
+			fun dropTree (1, Leaf _) = []
+				| dropTree (k', Node(w, t1, t2)) =
+					if k' = w then  (*??? only this is left ???*) [] @ [One t2]
+					else if k' > w then dropTree (k' - w, t2) @ [Zero]
+					else if k' < w then dropTree (k', t1) @ [One t2]
+
+			fun dropAux (0, _, ts') = ts'
+				| dropAux (_, _, []) = []
+				| dropAux (k', w, Zero :: ts') = dropAux (k', 2*w, ts')
+				| dropAux (k', w, One t :: ts') =
+					if k' = w then ts'
+					else if k' > w then dropAux (k' - w, 2*w, ts')
+					else dropTree (k', t) @ ts'
+		in
+			dropAux (k, 1, ts)
+		end
 
 
 	(* z63 *)
