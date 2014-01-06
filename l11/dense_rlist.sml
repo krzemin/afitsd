@@ -59,25 +59,28 @@ struct
 	  | flatten (One t :: ts) = flattenTree t @ flatten ts
 
   (* z62 *)
+
+	fun fillZeros n = List.tabulate(n, fn x => Zero )
+
+	fun log2 n = if n > 1 then 1 + log2 (n div 2) else 0
+
 	fun drop (k, ts) =
 		let
-			fun dropTree (1, Leaf _) = []
-				| dropTree (k', Node(w, t1, t2)) =
-					if k' = w then  (*??? only this is left ???*) [] @ [One t2]
-					else if k' > w then dropTree (k' - w, t2) @ [Zero]
-					else if k' < w then dropTree (k', t1) @ [One t2]
+			fun dropTree (k', Node(w, t1, t2)) =
+				if k' = w div 2 then fillZeros (log2 (w div 4)) @ [One t2]
+				else if k' > w div 2 then dropTree (k' - (w div 2), t2)
+				else dropTree (k', t1) @ [One t2]
 
 			fun dropAux (0, _, ts') = ts'
 				| dropAux (_, _, []) = []
 				| dropAux (k', w, Zero :: ts') = dropAux (k', 2*w, ts')
 				| dropAux (k', w, One t :: ts') =
-					if k' = w then ts'
+					if k' = w then fillZeros (log2 w) @ ts'
 					else if k' > w then dropAux (k' - w, 2*w, ts')
-					else dropTree (k', t) @ ts'
+					else dropTree (k', t) @ Zero :: ts'
 		in
-			dropAux (k, 1, ts)
+			dropAux(k, 1, ts)
 		end
-
 
 	(* z63 *)
 	fun fullTree (1, x) = Leaf x
@@ -113,10 +116,24 @@ val ral13752_4th = DenseRList.lookup (4, ral13752)
 val ral13052_2nd = DenseRList.lookup (2, ral13052)
 
 val ral13052_lst = DenseRList.flatten ral13052
-val ral052 = DenseRList.drop (2, ral13052)
 
 val ral16x5 = DenseRList.create (16, 5)
 val ral16x5_list = DenseRList.flatten ral16x5
 
 val ral6x2 = DenseRList.create (6, 2)
 val ral6x2_list = DenseRList.flatten ral6x2
+
+val rald052 = DenseRList.drop (2, ral13052)
+val rald052_list = DenseRList.flatten rald052
+
+val raldempty = DenseRList.drop (5, ral13052)
+val raldempty_list = DenseRList.flatten raldempty
+
+val rald2 = DenseRList.drop (4, ral13052)
+val rald2_list = DenseRList.flatten rald2
+
+val ral7x5 = DenseRList.drop (14, DenseRList.create (21, 5))
+val ral7x5_list = DenseRList.flatten ral7x5
+
+val ral64x1 = DenseRList.drop (63, DenseRList.create (127, 1))
+val ral64x1_list_len = length (DenseRList.flatten ral64x1)
