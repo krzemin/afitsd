@@ -88,22 +88,17 @@ struct
 		end
 
 	(* z63 *)
-	fun fullTree (1, x) = Leaf x
-		| fullTree (w, x) =
-			let val subTree = fullTree (w div 2, x)
-			in Node(w, subTree, subTree) end
-
 	fun create (k, x) =
 		let
-			fun createAux (0, _) = []
-				| createAux (n, w) = 
-					if n mod 2 = 0 then Zero :: createAux(n div 2, 2 * w)
-					else One (fullTree (w, x)) :: createAux(n div 2, 2 * w)
+			fun createAux (0, _, t) = []
+			  | createAux (n, w, t) =
+					(if n mod 2 = 1 then One t else Zero) :: createAux (n div 2, 2 * w, Node (w, t, t))
 		in
-			createAux (k, 1)
+			createAux (k, 1, Leaf x)
 		end
 
 end
+
 
 val ral = DenseRList.empty
 val ral2 = DenseRList.cons(2, ral)
@@ -143,4 +138,4 @@ val ral7x5_list = DenseRList.flatten ral7x5
 val ral64x1 = DenseRList.drop (63, DenseRList.create (127, 1))
 val ral64x1_list_len = length (DenseRList.flatten ral64x1)
 
-val ral64x1_head = DenseRList.head ral64x1
+(*val ral64x1_head = DenseRList.head ral64x1*)
